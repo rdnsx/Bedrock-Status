@@ -56,13 +56,14 @@
         }
 
         .animated {
-            animation: fadeIn 2s ease-out;
+            animation: fadeIn 3s ease-out;
         }
     </style>
 </head>
 <body>
     <div class="container animated">
-        <h1>{{ server_info.hostname }} - Server Status</h1>
+        <h1>{{ server_info.hostname }}</h1>
+        <h3>Server Status</h3>
         {% if server_info %}
             <p>Server Version: {{ server_info.server_version }}</p>
             <p>Motd: {{ server_info.motd }}</p>
