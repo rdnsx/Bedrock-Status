@@ -7,9 +7,12 @@
     <h1>Server Status</h1>
     {% if server_info %}
         <p>Server Version: {{ server_info.server_version }}</p>
-        <p>Uptime: {{ server_info.uptime }}</p>
-        <p>Minecraft Version: {{ server_info.minecraft_version }}</p>
-        <p>Connected Players: {{ server_info.connected_players }}</p>
+        <p>Motd: {{ server_info.motd }}</p>
+        <p>Max Players: {{ server_info.max_players }}</p>
+        <p>Hostname: {{ server_info.hostname }}</p>
+        <p>Map: {{ server_info.map }}</p>
+        <p>Gamemode: {{ server_info.gamemode }}</p>
+        <p>Server ID: {{ server_info.server_id }}</p>
         <p>Online State: {% if server_info.online_state %}Online{% else %}Offline{% endif %}</p>
     {% else %}
         <p>Error retrieving server status.</p>
