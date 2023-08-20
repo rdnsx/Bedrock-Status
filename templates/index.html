@@ -59,6 +59,28 @@
         .animated {
             animation: fadeIn 3s ease-out;
         }
+
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #c5c8c6;
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: #81a2be;
+            text-decoration: none;
+        }
+
+        .git-logo {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            margin-left: 5px;
+            vertical-align: middle;
     </style>
 </head>
 <body>
@@ -78,6 +100,9 @@
         {% else %}
             <p>Error retrieving server status.</p>
         {% endif %}
+    </div>
+    <div class="footer">
+        Built by rdnsx. Get it on <a href="https://github.com/rdnsx/Bedrock-Status" target="_blank">GitHub <img class="git-logo" src="{{ url_for('static', filename='git.png') }}" alt="GitHub Logo"></a>
     </div>
 </body>
 </html>
