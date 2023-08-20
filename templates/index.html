@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>PietsCraft Server Status</title>
+    <title>{{ server_info.hostname }} Server Status</title>
     <style>
         body {
             font-family: 'Courier New', monospace;
-            background-color: #1d1f21;
             color: #c5c8c6;
             margin: 0;
             padding: 0;
@@ -13,20 +12,23 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            background-image: url('mc.webp'); 
+            background-size: cover;
+            background-position: center;
         }
 
         .container {
-            background-color: #282a2e;
+            background-color: rgba(40, 42, 46, 0.8);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             max-width: 400px;
             width: 100%;
-            text-align: left;
+            text-align: center;
         }
 
         h1 {
-            color: #81a2be;
+            color: #44ff00;
             font-size: 24px;
             margin-bottom: 15px;
         }
@@ -37,7 +39,7 @@
         }
 
         .online {
-            color: #8ec07c;
+            color: #44ff00;
         }
 
         .offline {
@@ -54,13 +56,13 @@
         }
 
         .animated {
-            animation: fadeIn 1s ease-out;
+            animation: fadeIn 2s ease-out;
         }
     </style>
 </head>
 <body>
     <div class="container animated">
-        <h1>Server Status</h1>
+        <h1>{{ server_info.hostname }} - Server Status</h1>
         {% if server_info %}
             <p>Server Version: {{ server_info.server_version }}</p>
             <p>Motd: {{ server_info.motd }}</p>
