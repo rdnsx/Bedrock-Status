@@ -10,9 +10,12 @@ def get_minecraft_server_status():
         if data['online']:
             return {
                 'server_version': data['version'],
-                'uptime': data['debug']['uptime'],
-                'minecraft_version': data['software'],
-                'connected_players': data['players']['online'],
+                'motd': data['motd']['clean'][0],
+                'max_players': data['players']['max'],
+                'hostname': data['hostname'],
+                'map': data['map'],
+                'gamemode': data['gamemode'],
+                'server_id': data['serverid'],
                 'online_state': True
             }
     except Exception as e:
