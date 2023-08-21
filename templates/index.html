@@ -91,8 +91,9 @@
     </style>
 </head>
 <body>
-    <img class="centered-image animated" src="{{ url_for('static', filename='server.png') }}" alt="Server">
-    <br>
+    <div class="centered-image-container">
+        <img class="centered-image animated" src="{{ url_for('static', filename='server.png') }}" alt="Server">
+    </div>
     <div class="container animated">
         <h1>{{ server_info.hostname }}</h1>
         <h3>Server Status</h3>
