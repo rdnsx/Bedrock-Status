@@ -38,7 +38,7 @@ pipeline {
                             mount -a &&
                             cd /mnt/SSS/DockerData/ &&
                             docker image rm -f ${DOCKER_IMAGE_NAME}:${TAG_NAME} &&
-                            git fetch ${SOURCE_REPO_URL} &&
+                            git pull ${SOURCE_REPO_URL} &&
                             cd Bedrock-Status &&
                             docker stack deploy -c docker-compose-swarm.yml Bedrock-Status;'
                             """
