@@ -88,6 +88,14 @@
             margin: 0 auto;
             max-width: 40%;
         }
+        @keyframes flash {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
     </style>
 </head>
 <body>
@@ -104,7 +112,7 @@
             <p>Map: {{ server_info.map }}</p>
             <p>Gamemode: {{ server_info.gamemode }}</p>
             <p>Server ID: {{ server_info.server_id }}</p>
-            <p>Online State: <span class="{% if server_info.online_state %}online{% else %}offline{% endif %}">{% if server_info.online_state %}Online{% else %}Offline{% endif %}</span></p>
+            <p>Online State: <span class="{% if server_info.online_state %}online flash{% else %}offline{% endif %}">{% if server_info.online_state %}Online{% else %}Offline{% endif %}</span></p>
         {% else %}
             <p>Error retrieving server status.</p>
         {% endif %}
