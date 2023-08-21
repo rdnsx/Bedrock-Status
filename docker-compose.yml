@@ -3,6 +3,8 @@ version: '3.8'
 services:
   bedrockstatus:
     image: rdnsx/bedrockstatus
+    environment:
+      - DOMAIN=pietscraft.net # Change to your MC server domain!
 networks:
   default:
     external:

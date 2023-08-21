@@ -1,12 +1,15 @@
-version: '3.8' 
+version: '3.8'
 
 services:
   bedrockstatus:
     image: rdnsx/bedrockstatus
     deploy:
       replicas: 3
+    environment:
+      - DOMAIN=pietscraft.net # Change to your MC server domain!
 
 networks:
   default:
     external:
       name: npm_default
+
