@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>{{ server_info.hostname }} Server Status</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <style>
         body {
             font-family: 'Courier New', monospace;
@@ -82,9 +83,16 @@
             margin-left: 5px;
             vertical-align: middle;
         }
+        .centered-image {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
     </style>
 </head>
 <body>
+    <img class="centered-image" src="{{ url_for('static', filename='server.png') }}" alt="Server">
+
     <div class="container animated">
         <h1>{{ server_info.hostname }}</h1>
         <h3>Server Status</h3>
