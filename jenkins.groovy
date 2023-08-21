@@ -9,10 +9,12 @@ pipeline {
         SSH_USER = 'root'
         SSH_HOST = '91.107.199.72'
         SSH_PORT = '22'
+    }
+    
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: SOURCE_REPO_URL
+                git branch: 'main', url: env.SOURCE_REPO_URL
             }
         }
         
@@ -31,15 +33,15 @@ pipeline {
             steps {
                 script {
                     sshagent(['Swarm00']) {
-                    sh """
-                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST} '
-                        mount -a;
-                        cd /mnt/SSS/DockerData/;
-                        docker image rm -f ${DOCKER_IMAGE_NAME}:${TAG_NAME};
-                        git clone ${SOURCE_REPO_URL};
-                        cd Bedrock-Status;
-                        docker stack deploy -c docker-compose-swarm.yml Bedrock-Status;'
-                    """
+                        sh """
+                            ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST} '
+                            mount -a &&
+                            cd /mnt/SSS/DockerData/ &&
+                            docker image rm -f ${DOCKER_IMAGE_NAME}:${TAG_NAME} &&
+                            git clone ${SOURCE_REPO_URL} &&
+                            cd Bedrock-Status &&
+                            docker stack deploy -c docker-compose-swarm.yml Bedrock-Status;'
+                            """
                     }
                 }
             }
