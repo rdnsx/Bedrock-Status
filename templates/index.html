@@ -91,9 +91,8 @@
     </style>
 </head>
 <body>
-    <img class="centered-image animated" src="{{ url_for('static', filename='server.png') }}" alt="Server">
-    <br>
     <div class="container animated">
+        <img class="centered-image" src="{{ url_for('static', filename='server.png') }}" alt="Server">
         <h1>{{ server_info.hostname }}</h1>
         <h3>Server Status</h3>
         {% if server_info %}
