@@ -19,11 +19,12 @@
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: rgba(40, 42, 46, 0.8);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
+            width: 100%; 
+            max-width: 800px; 
             margin: 0 auto;
             text-align: center;
         }
@@ -83,6 +84,8 @@
             vertical-align: middle;
         }
         .centered-image {
+            display: block;
+            margin: 0 auto;
             max-width: 50%;
         }
     </style>
@@ -91,6 +94,7 @@
     <div class="centered-image">
         <img class="centered-image animated" src="{{ url_for('static', filename='server.png') }}" alt="Server">
     </div>
+    <br>
     <div class="container animated">
         <h1>{{ server_info.hostname }}</h1>
         <h3>Server Status</h3>
