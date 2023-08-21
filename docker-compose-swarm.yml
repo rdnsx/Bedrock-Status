@@ -5,8 +5,6 @@ services:
     image: rdnsx/bedrockstatus
     deploy:
       replicas: 3
-      restart_policy:
-        condition: unless-stopped
 
 networks:
   default:
