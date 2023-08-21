@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  php:
+    image: rdnsx/bedrockstatus
+networks:
+  default:
+    external:
+      name: npm_default

@@ -1,11 +1,15 @@
 from flask import Flask, render_template
 import requests
+import os 
 
 app = Flask(__name__)
 
+MC_SERVER_DOMAIN = os.environ.get('SERVER')
+
 def get_minecraft_server_status():
     try:
-        response = requests.get('https://api.mcsrvstat.us/bedrock/2/pietscraft.net')
+        response = requests.get(f'https://api.mcsrvstat.us/bedrock/2/{MC_SERVER_DOMAIN}')
+
         data = response.json()
         if data['online']:
             return {
