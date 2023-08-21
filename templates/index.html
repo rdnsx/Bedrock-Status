@@ -107,7 +107,7 @@
             <p>Server ID: {{ server_info.server_id }}</p>
             <p>Online State: <span class="{% if server_info.online_state %}online{% else %}offline{% endif %}">{% if server_info.online_state %}Online{% else %}Offline{% endif %}</span></p>
         {% else %}
-            <p>Error retrieving server status.</p>
+            <p>Server is offline.</p>
         {% endif %}
     </div>
     <div class="footer animated">
