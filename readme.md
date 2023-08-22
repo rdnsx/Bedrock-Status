@@ -2,8 +2,6 @@
 
 This project provides a Flask web application that displays information about a Minecraft Bedrock server. The application fetches server information using an external API and presents it in a user-friendly format on a web page.
 
-## Getting Started
-
 ## Quick setup
 
    ```bash
@@ -57,6 +55,3 @@ This project provides a Flask web application that displays information about a 
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
-
