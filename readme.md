@@ -2,6 +2,8 @@
 
 This project provides a Flask web application that displays information about a Minecraft Bedrock server. The application fetches server information using an external API and presents it in a user-friendly format on a web page.
 
+![Screenshot of the Web Application](screenshot.png)
+
 ## Quick setup
 
    ```bash
