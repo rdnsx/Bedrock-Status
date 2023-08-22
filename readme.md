@@ -39,6 +39,7 @@ To run this application, you need to have Docker and Docker Compose installed on
 5. Access the application by opening your web browser and navigating to `http://localhost:5000`.
 
 If you´d like to run it without Docker-Compose use:
+
     ```bash
     docker run -d -p 5000:5000 -e DOMAIN=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
     ```
