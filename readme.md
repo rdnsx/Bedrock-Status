@@ -4,7 +4,13 @@ This project provides a Flask web application that displays information about a 
 
 ## Getting Started
 
-To run this application, you need to have Docker and Docker Compose installed on your system.
+## Quick setup
+
+   ```bash
+   docker run -d -p 5000:5000 -e DOMAIN=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
+   ```
+
+## Setup with Docker-Compose
 
 1. Clone this repository to your local machine:
 
@@ -37,13 +43,6 @@ To run this application, you need to have Docker and Docker Compose installed on
    ```
 
 5. Access the application by opening your web browser and navigating to `http://localhost:5000`.
-
-**(Alternativly) If you´d like to run it without Docker-Compose use:**
-
-
-   ```bash
-   docker run -d -p 5000:5000 -e DOMAIN=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
-   ```
 
 ## Customization
 
