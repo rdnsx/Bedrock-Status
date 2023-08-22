@@ -5,6 +5,8 @@ services:
     image: rdnsx/bedrockstatus
     environment:
       - SERVER=pietscraft.net # Change to your MC server domain!
+
+# Optional add a preexisting proxy network
 networks:
   default:
     external:
