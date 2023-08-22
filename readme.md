@@ -38,7 +38,7 @@ To run this application, you need to have Docker and Docker Compose installed on
 
 5. Access the application by opening your web browser and navigating to `http://localhost:5000`.
 
-**If you´d like to run it without Docker-Compose use:**
+**(Alternativly) If you´d like to run it without Docker-Compose use:**
 
 
    ```bash
