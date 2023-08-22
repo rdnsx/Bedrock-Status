@@ -8,6 +8,8 @@ This project provides a Flask web application that displays information about a 
    docker run -d -p 5000:5000 -e SERVER=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
    ```
 
+Access the application by opening your web browser and navigating to `http://localhost:5000`.
+
 ## Setup with Docker-Compose
 
 1. Clone this repository to your local machine:
