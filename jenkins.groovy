@@ -36,11 +36,10 @@ pipeline {
                         sh """
                             ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST} '
                             mount -a &&
-                            cd /mnt/SSS/DockerData/ &&
-                            rm -rf Bedrock-Status/ &&
-                            docker image rm -f ${DOCKER_IMAGE_NAME}:${TAG_NAME} &&
-                            git clone ${SOURCE_REPO_URL} &&
+                            cd /mnt/SSS/DockerCompose/ &&
+                            mkdir Bedrock-Status/ &&
                             cd Bedrock-Status/ &&
+                            wget https://github.com/rdnsx/Bedrock-Status/blob/main/docker-compose-swarm.yml &&
                             docker stack deploy -c docker-compose-swarm.yml Bedrock-Status;'
                             """
                     }
