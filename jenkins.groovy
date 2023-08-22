@@ -53,7 +53,7 @@ pipeline {
         stage('Check Website Status') {
             steps {
                 script {
-                    def startTime = currentBuild.startTimeInMillis
+                    def startTime = System.currentTimeMillis()
 
                     echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
                     sleep WAIT_TIME
@@ -66,7 +66,7 @@ pipeline {
                         error "Website is not responding properly or does not contain 'Gamemode'."
                     }
 
-                    def endTime = currentBuild.endTimeInMillis
+                    def endTime = System.currentTimeMillis()
                     def elapsedTime = (endTime - startTime) / 1000.0
 
                     echo "Total time elapsed: ${elapsedTime} seconds"
