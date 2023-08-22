@@ -47,5 +47,29 @@ pipeline {
                 }
             }
         }
+
+        stage('Check Website Status') {
+            steps {
+                script {
+                    def startTime = currentBuild.startTimeInMillis
+
+                    echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
+                    sleep WAIT_TIME
+
+                    def response = sh(script: "curl -s ${WEBSITE_URL}", returnStdout: true).trim()
+
+                    if (response.contains('Gamemode')) {
+                        echo "Website is up and contains 'Gamemode'."
+                    } else {
+                        error "Website is not responding properly or does not contain 'Gamemode'."
+                    }
+
+                    def endTime = currentBuild.endTimeInMillis
+                    def elapsedTime = (endTime - startTime) / 1000.0
+
+                    echo "Total time elapsed: ${elapsedTime} seconds"
+                }
+            }
+        }
     }
 }
