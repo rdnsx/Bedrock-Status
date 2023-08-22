@@ -53,7 +53,7 @@ Access the application by opening your web browser and navigating to `http://loc
 
 ## Notes
 
-- The application fetches server information from an external API. If you encounter any issues with the API, ensure that the API URL (`https://api.mcsrvstat.us/bedrock/2/`) is still valid and working.
+- The application fetches server information from an external API. If you encounter any issues with the API, ensure that the API URL (`https://api.mcsrvstat.us/bedrock/2/<YOU_DOMAIN>`) is still valid and working.
 - This project uses the Docker image `rdnsx/bedrockstatus` to deploy the application. Make sure to check for any updates or changes to this image if needed.
 
 ## License
