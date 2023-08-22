@@ -37,6 +37,7 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST} '
                             mount -a &&
                             cd /mnt/SSS/DockerCompose/ &&
+                            rm -rf Bedrock-Status/ &&
                             mkdir Bedrock-Status/ &&
                             cd Bedrock-Status/ &&
                             wget https://raw.githubusercontent.com/rdnsx/Bedrock-Status/main/docker-compose-swarm.yml &&
