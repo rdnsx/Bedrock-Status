@@ -39,7 +39,7 @@ pipeline {
                             cd /mnt/SSS/DockerCompose/ &&
                             mkdir Bedrock-Status/ &&
                             cd Bedrock-Status/ &&
-                            wget https://github.com/rdnsx/Bedrock-Status/blob/main/docker-compose-swarm.yml &&
+                            wget https://raw.githubusercontent.com/rdnsx/Bedrock-Status/main/docker-compose-swarm.yml &&
                             docker stack deploy -c docker-compose-swarm.yml Bedrock-Status;'
                             """
                     }
