@@ -31,7 +31,7 @@ pipeline {
             }
         }
         
-        stage('Deploy to Swarm Server') {
+        stage('Deploy to Swarm') {
             steps {
                 script {
                     sshagent(['Swarm00']) {
