@@ -5,7 +5,7 @@ This project provides a Flask web application that displays information about a 
 ## Quick setup
 
    ```bash
-   docker run -d -p 5000:5000 -e DOMAIN=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
+   docker run -d -p 5000:5000 -e SERVER=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
    ```
 
 ## Setup with Docker-Compose
@@ -22,7 +22,7 @@ This project provides a Flask web application that displays information about a 
    cd Bedrock-Status
    ```
 
-3. Modify the `docker-compose.yml` file to set your desired environment variables. Specifically, you can set the `DOMAIN` environment variable to the domain of the Minecraft Bedrock server you want to monitor.
+3. Modify the `docker-compose.yml` file to set your desired environment variables. Specifically, you can set the `SERVER` environment variable to the domain of the Minecraft Bedrock server you want to monitor.
 
    ```yaml
    services:
@@ -31,7 +31,7 @@ This project provides a Flask web application that displays information about a 
        ports:
          5000:5000
        environment:
-         - DOMAIN=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE>
+         - SERVER=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE>
    ```
 
 4. Deploy the application using Docker Compose:
