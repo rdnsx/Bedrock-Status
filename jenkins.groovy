@@ -104,19 +104,14 @@ def compareTagVersions(tag1, tag2) {
     def versionParts2 = tag2.tokenize('.').collect { it as Integer }
 
     for (int i = 0; i < Math.min(versionParts1.size(), versionParts2.size()); i++) {
-        if (versionParts1[i] < versionParts2[i]) {
-            return -1
-        } else if (versionParts1[i] > versionParts2[i]) {
-            return 1
+        def diff = versionParts1[i] - versionParts2[i]
+        if (diff != 0) {
+            return diff
         }
     }
     
-    if (versionParts1.size() < versionParts2.size()) {
-        return -1
-    } else if (versionParts1.size() > versionParts2.size()) {
-        return 1
-    }
-    
-    return 0
+    // Handle case where one version has more parts than the other
+    return versionParts1.size() - versionParts2.size()
 }
+
 
