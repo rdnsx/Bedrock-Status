@@ -23,9 +23,13 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
+                    def buildNumber = env.BUILD_NUMBER
                     docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
-                        def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${TAG_NAME}", ".")
+                        def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${buildNumber}", ".")
                         dockerImage.push()
+
+                        dockerImage.tag("latest")
+                        dockerImage.push("latest")
                     }
                 }
             }
