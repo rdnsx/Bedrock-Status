@@ -5,7 +5,7 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'DockerHub'
         SOURCE_REPO_URL = 'https://github.com/rdnsx/Bedrock-Status.git'
         DOCKER_IMAGE_NAME = 'rdnsx/bedrockstatus'
-        TAG_NAME = 'latest'
+        TAG_NAME = '1.0.0'
         SSH_USER = 'root'
         SSH_HOST = '91.107.199.72'
         SSH_PORT = '22'
