@@ -5,7 +5,7 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'DockerHub'
         SOURCE_REPO_URL = 'https://github.com/rdnsx/Bedrock-Status.git'
         DOCKER_IMAGE_NAME = 'rdnsx/bedrockstatus'
-        TAG_NAME = '1.0.0'
+        LATEST_TAG = 'latest'
         SSH_USER = 'root'
         SSH_HOST = '91.107.199.72'
         SSH_PORT = '22'
@@ -20,7 +20,6 @@ pipeline {
             }
         }
         
-<<<<<<< HEAD
         stage('Get Latest Tag') {
             steps {
                 script {
@@ -36,14 +35,15 @@ pipeline {
             }
         }
         
-=======
->>>>>>> parent of 67a33a0 (update jenkins.groovy)
         stage('Build Docker Image') {
             steps {
                 script {
                     docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
                         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${TAG_NAME}", ".")
                         dockerImage.push()
+
+                        dockerImage.tag("${LATEST_TAG}")
+                        dockerImage.push("${LATEST_TAG}")
                     }
                 }
             }
@@ -88,33 +88,18 @@ pipeline {
         }
     }
 }
-<<<<<<< HEAD
 
 def findLatestTag(response) {
     def jsonSlurper = new groovy.json.JsonSlurper()
     def tags = jsonSlurper.parseText(response).results.name
     def numericTags = tags.findAll { tag -> tag.matches("\\d+(\\.\\d+)*") }
-    def sortedTags = numericTags.sort { tag1, tag2 ->
-        compareTagVersions(tag1, tag2)
-    }
-    return sortedTags.last()
+    return numericTags.max { tag -> tag.tokenize('.').collect { it as Integer } }
 }
 
-def compareTagVersions(tag1, tag2) {
-    def versionParts1 = tag1.tokenize('.').collect { it as Integer }
-    def versionParts2 = tag2.tokenize('.').collect { it as Integer }
-
-    for (int i = 0; i < Math.min(versionParts1.size(), versionParts2.size()); i++) {
-        def diff = versionParts1[i] - versionParts2[i]
-        if (diff != 0) {
-            return diff
-        }
-    }
-    
-    // Handle case where one version has more parts than the other
-    return versionParts1.size() - versionParts2.size()
+def incrementTag(tag) {
+    def parts = tag.tokenize('.')
+    def lastPart = parts[-1] as Integer
+    lastPart++
+    parts[-1] = lastPart.toString()
+    return parts.join('.')
 }
-
-
-=======
->>>>>>> parent of 67a33a0 (update jenkins.groovy)
