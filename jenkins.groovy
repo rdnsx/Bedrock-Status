@@ -5,7 +5,7 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'DockerHub'
         SOURCE_REPO_URL = 'https://github.com/rdnsx/Bedrock-Status.git'
         DOCKER_IMAGE_NAME = 'rdnsx/bedrockstatus'
-        LATEST_TAG = 'latest'
+        TAG_NAME = '1.0.0'
         SSH_USER = 'root'
         SSH_HOST = '91.107.199.72'
         SSH_PORT = '22'
@@ -20,6 +20,7 @@ pipeline {
             }
         }
         
+<<<<<<< HEAD
         stage('Get Latest Tag') {
             steps {
                 script {
@@ -35,15 +36,14 @@ pipeline {
             }
         }
         
+=======
+>>>>>>> parent of 67a33a0 (update jenkins.groovy)
         stage('Build Docker Image') {
             steps {
                 script {
                     docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
                         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${TAG_NAME}", ".")
                         dockerImage.push()
-
-                        dockerImage.tag("${LATEST_TAG}")
-                        dockerImage.push("${LATEST_TAG}")
                     }
                 }
             }
@@ -88,6 +88,7 @@ pipeline {
         }
     }
 }
+<<<<<<< HEAD
 
 def findLatestTag(response) {
     def jsonSlurper = new groovy.json.JsonSlurper()
@@ -115,3 +116,5 @@ def compareTagVersions(tag1, tag2) {
 }
 
 
+=======
+>>>>>>> parent of 67a33a0 (update jenkins.groovy)
