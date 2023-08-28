@@ -5,7 +5,7 @@ pipeline {
         DOCKER_HUB_CREDENTIALS = 'DockerHub'
         SOURCE_REPO_URL = 'https://github.com/rdnsx/Bedrock-Status.git'
         DOCKER_IMAGE_NAME = 'rdnsx/bedrockstatus'
-        TAG_NAME = '1.0.0'
+        LATEST_TAG = 'latest'
         SSH_USER = 'root'
         SSH_HOST = '91.107.199.72'
         SSH_PORT = '22'
@@ -20,12 +20,27 @@ pipeline {
             }
         }
         
+        stage('Get Latest Tag') {
+            steps {
+                script {
+                    def dockerHubUrl = "https://hub.docker.com/v2/repositories/${DOCKER_IMAGE_NAME}/tags/?page_size=100"
+                    def response = sh(script: "curl -s ${dockerHubUrl}", returnStdout: true)
+                    def latestTag = findLatestTag(response)
+                    echo "Latest Docker tag found: ${latestTag}"
+                    env.TAG_NAME = incrementTag(latestTag)
+                }
+            }
+        }
+        
         stage('Build Docker Image') {
             steps {
                 script {
                     docker.withRegistry('', DOCKER_HUB_CREDENTIALS) {
                         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${TAG_NAME}", ".")
                         dockerImage.push()
+
+                        dockerImage.tag("${LATEST_TAG}")
+                        dockerImage.push("${LATEST_TAG}")
                     }
                 }
             }
@@ -69,4 +84,19 @@ pipeline {
             }
         }
     }
+}
+
+def findLatestTag(response) {
+    def jsonSlurper = new groovy.json.JsonSlurper()
+    def tags = jsonSlurper.parseText(response).results.name
+    def numericTags = tags.findAll { tag -> tag.matches("\\d+(\\.\\d+)*") }
+    return numericTags.max { tag -> tag.tokenize('.').collect { it as Integer } }
+}
+
+def incrementTag(tag) {
+    def parts = tag.tokenize('.')
+    def lastPart = parts[-1] as Integer
+    lastPart++
+    parts[-1] = lastPart.toString()
+    return parts.join('.')
 }
