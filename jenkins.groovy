@@ -26,11 +26,8 @@ pipeline {
                     def dockerHubUrl = "https://hub.docker.com/v2/repositories/${DOCKER_IMAGE_NAME}/tags/?page_size=100"
                     def response = sh(script: "curl -s ${dockerHubUrl}", returnStdout: true)
                     def latestTag = findLatestTag(response)
-                    
-                    def buildNumber = env.BUILD_NUMBER
-                    
                     echo "Latest Docker tag found: ${latestTag}"
-                    env.TAG_NAME = "${latestTag}-build_${buildNumber}"
+                    env.TAG_NAME = incrementTag(latestTag)
                 }
             }
         }
