@@ -33,6 +33,8 @@ stage('Build Docker Image') {
                 dockerImage.tag("latest")
                 dockerImage.push("latest")
             }
+            def readmeContent = sh(script: "curl -s https://raw.githubusercontent.com/yourusername/yourrepository/main/README.md", returnStdout: true).trim()
+            sh "docker image label add ${DOCKER_IMAGE_NAME}:${buildNumber} description='${readmeContent}'"
         }
     }
 }
