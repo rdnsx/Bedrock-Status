@@ -5,14 +5,17 @@ services:
     image: rdnsx/bedrockstatus
     deploy:
       replicas: 3
-        restart_policy:
-          condition: always
+      restart_policy:
+        condition: any
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
     environment:
       - SERVER=pietscraft.net # Change to your MC server domain!
 
-# Optional add a preexisting proxy network
+# Optional: add a preexisting proxy network
 networks:
   default:
     external:
       name: npm_default
-      
