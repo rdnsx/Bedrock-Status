@@ -67,19 +67,10 @@ stage('Build Docker Image') {
 
                     if (response.contains('Gamemode')) {
                         echo "Website is up and contains 'Gamemode'."
-
-                    sh """
-                        curl \
-                        -H "Title: Build successfull!" \
-                        -H "Priority: default" \
-                        -H "Tags: +1" \
-                        -d "${WEBSITE_URL} is up and running on build ${buildNumber}!" \
-                        ntfy.rdnsx.de/RDNSX_Jenkins
-                    """
-
                     } else {
                         error "Website is not responding properly or does not contain 'Gamemode'."
                     }
+
                 }
             }
         }
