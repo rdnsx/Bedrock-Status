@@ -74,5 +74,15 @@ stage('Build Docker Image') {
                 }
             }
         }
+       stage('Notify') {
+            steps {
+                script {
+                    def ntfyServer = 'ntfy.rdnsx.de'
+                    def ntfyTopic = 'RDNSX_Jenkins'
+                    def ntfyCommand = "ntfy -b ${ntfyServer} -t ${ntfyTopic} send '👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!'"
+                    sh ntfyCommand
+                }
+            }
+        }
     }
 }
