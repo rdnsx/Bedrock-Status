@@ -80,7 +80,7 @@ stage('Build Docker Image') {
                     def buildNumber = env.BUILD_NUMBER
                     def ntfyServer = 'ntfy.rdnsx.de'
                     def ntfyTopic = 'RDNSX_Jenkins'
-                    def ntfyCommand = "ntfy --baseurl ${ntfyServer} send '👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!'"
+                    def ntfyCommand = "ntfy publish ${ntfyServer}/${ntfyTopic} '👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!'"
                     sh ntfyCommand
                 }
             }
