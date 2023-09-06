@@ -67,21 +67,8 @@ stage('Build Docker Image') {
 
                     if (response.contains('Gamemode')) {
                         echo "Website is up and contains 'Gamemode'."
-<<<<<<< HEAD
-                        def ntfyServer = 'ntfy.rdnsx.de'
-                        def ntfyTopic = 'RDNSX_Jenkins'
-                        def ntfyCommand = 'ntfy publish -p 3 --title "${DOCKER_IMAGE_NAME}" ${ntfyServer}/${ntfyTopic} "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"'
-                        sh ntfyCommand
                     } else {
                         error "Website is not responding properly or does not contain 'Gamemode'."
-                        def ntfyServer = 'ntfy.rdnsx.de'
-                        def ntfyTopic = 'RDNSX_Jenkins'
-                        def ntfyCommand = 'ntfy publish -p 5 --title "${DOCKER_IMAGE_NAME}" ${ntfyServer}/${ntfyTopic} "⛔ ${WEBSITE_URL} failed on build ${buildNumber}!"'
-                        sh ntfyCommand
-=======
-                    } else {
-                        error "Website is not responding properly or does not contain 'Gamemode'."
->>>>>>> parent of 49a9320 (update jenkins.groovy)
                     }
                 }
             }
