@@ -59,16 +59,17 @@ stage('Build Docker Image') {
         stage('Check Website Status') {
             steps {
                 script {
+                    def buildNumber = env.BUILD_NUMBER
 
                     echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
                     sleep WAIT_TIME
 
                     def response = sh(script: "curl -s ${WEBSITE_URL}", returnStdout: true).trim()
 
-                    if (response.contains('Gamemode')) {
-                        echo "Website is up and contains 'Gamemode'."
+                    if (response.contains(${buildNumber})) {
+                        echo "Website is up and contains ${buildNumber}."
                     } else {
-                        error "Website is not responding properly or does not contain 'Gamemode'."
+                        error "Website is not responding properly or does not contain ${buildNumber}."
                     }
                 }
             }
