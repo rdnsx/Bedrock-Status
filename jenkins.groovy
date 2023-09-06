@@ -66,7 +66,7 @@ stage('Build Docker Image') {
 
                     def response = sh(script: "curl -s ${WEBSITE_URL}", returnStdout: true).trim()
 
-                    if (response.contains(${buildNumber})) {
+                    if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
