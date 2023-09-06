@@ -19,6 +19,26 @@ pipeline {
                 git branch: 'main', url: env.SOURCE_REPO_URL
             }
         }
+
+stage('Debug') {
+    steps {
+        script {
+            def buildNumber = env.BUILD_NUMBER
+            
+            // Print the content of the index.html file before the update
+            sh "cat templates/index.html"
+            
+            // Update the index.html file
+            sh "sed -i 's/{{BUILD_NUMBER}}/${buildNumber}/g' templates/index.html"
+            
+            // Print the content of the index.html file after the update
+            sh "cat templates/index.html"
+            
+            // Sleep for a few seconds to allow manual inspection
+            sleep 10
+        }
+    }
+}
         
 stage('Build Docker Image') {
     steps {
