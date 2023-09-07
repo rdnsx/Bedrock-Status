@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  bedrockstatus:
+  app:
     image: rdnsx/bedrockstatus
     deploy:
       replicas: 1
