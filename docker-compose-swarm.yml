@@ -7,17 +7,8 @@ services:
       replicas: 3
       restart_policy:
         condition: any
-      update_config:
-        parallelism: 1
-        delay: 10s
-        order: start-first
     environment:
       - SERVER=pietscraft.net # Change to your MC server domain!
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 # Optional: add a preexisting proxy network
 networks:
