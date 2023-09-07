@@ -74,13 +74,29 @@ pipeline {
                 }
             }
         }
-        stage('Notify') {
+
+        stage('Notify success') {
             steps {
                 script {
                     def buildNumber = env.BUILD_NUMBER
                     def ntfyServer = 'ntfy.rdnsx.de'
                     def ntfyTopic = 'RDNSX_Jenkins'
                     def ntfyCommand = "ntfy publish ${ntfyServer}/${ntfyTopic} '👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!'"
+                    sh ntfyCommand
+                }
+            }
+        }
+
+        stage('Notify Failure') {
+            when {
+                expression { currentBuild.resultIsWorseThan('SUCCESS') }
+            }
+            steps {
+                script {
+                    def buildNumber = env.BUILD_NUMBER
+                    def ntfyServer = 'ntfy.rdnsx.de'
+                    def ntfyTopic = 'RDNSX_Jenkins'
+                    def ntfyCommand = "ntfy publish ${ntfyServer}/${ntfyTopic} '🚫 ${WEBSITE_URL} build ${buildNumber} has failed!'"
                     sh ntfyCommand
                 }
             }
