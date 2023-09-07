@@ -89,7 +89,7 @@ pipeline {
 
         stage('Notify Failure') {
             when {
-                expression { currentBuild.resultIsWorseThan('SUCCESS') }
+                expression { currentBuild.resultIs('FAILURE') }
             }
             steps {
                 script {
