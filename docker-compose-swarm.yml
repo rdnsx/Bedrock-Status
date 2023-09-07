@@ -4,9 +4,13 @@ services:
   bedrockstatus:
     image: rdnsx/bedrockstatus
     deploy:
-      replicas: 3
+      replicas: 1
       restart_policy:
         condition: any
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
     environment:
       - SERVER=pietscraft.net # Change to your MC server domain!
 
