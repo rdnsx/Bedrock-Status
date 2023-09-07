@@ -86,20 +86,5 @@ pipeline {
                 }
             }
         }
-
-        stage('Notify Failure') {
-            when {
-                expression { currentBuild.resultIs('FAILURE') }
-            }
-            steps {
-                script {
-                    def buildNumber = env.BUILD_NUMBER
-                    def ntfyServer = 'ntfy.rdnsx.de'
-                    def ntfyTopic = 'RDNSX_Jenkins'
-                    def ntfyCommand = "ntfy publish ${ntfyServer}/${ntfyTopic} '🚫 ${WEBSITE_URL} build ${buildNumber} has failed!'"
-                    sh ntfyCommand
-                }
-            }
-        }
     }
 }
