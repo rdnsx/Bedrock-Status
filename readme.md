@@ -4,13 +4,15 @@ This project provides a Flask web application that displays information about a 
 
 ![Screenshot of the Web Application](screenshot.png)
 
+# !!!DEFAULT PORT CHANGED TO 8000!!!
+
 ## Quick setup
 
    ```bash
-   docker run -d -p 5000:5000 -e SERVER=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
+   docker run -d -p 8000:8000 -e SERVER=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE> rdnsx/bedrockstatus
    ```
 
-Access the application by opening your web browser and navigating to `http://localhost:5000`.
+Access the application by opening your web browser and navigating to `http://localhost:8000`.
 
 ## Setup with Docker-Compose
 
@@ -44,7 +46,7 @@ Access the application by opening your web browser and navigating to `http://loc
    docker-compose up -d
    ```
 
-5. Access the application by opening your web browser and navigating to `http://localhost:5000`.
+5. Access the application by opening your web browser and navigating to `http://localhost:8000`.
 
 ## Customization
 
