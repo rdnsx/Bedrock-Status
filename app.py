@@ -8,31 +8,24 @@ app = Flask(__name__)
 MC_SERVER_DOMAIN = os.environ.get('SERVER')
 
 def get_minecraft_server_status():
-    server_urls = [
-        f'https://api.mcsrvstat.us/3/{MC_SERVER_DOMAIN}',
-        f'https://api.mcsrvstat.us/bedrock/3/{MC_SERVER_DOMAIN}'
-    ]
+    try:
+        response = requests.get(f'https://api.mcsrvstat.us/bedrock/3/{MC_SERVER_DOMAIN}')
 
-    for url in server_urls:
-        try:
-            response = requests.get(url)
-            data = response.json()
-
-            if data['online']:
-                return {
-                    'server_version': data['version'],
-                    'motd': data['motd']['clean'][0],
-                    'max_players': data['players']['max'],
-                    'connected_players': data['players']['online'],
-                    'hostname': data['hostname'],
-                    'map': data['map']['clean'],
-                    'gamemode': data['gamemode'],
-                    'server_id': data['serverid'],
-                    'online_state': True
-                }
-        except Exception as e:
-            print(f"Error while checking server: {e}")
-            time.sleep(1) 
+        data = response.json()
+        if data['online']:
+            return {
+                'server_version': data['version'],
+                'motd': data['motd']['clean'][0],
+                'max_players': data['players']['max'],
+                'connected_players': data['players']['online'],
+                'hostname': data['hostname'],
+                'map': data['map']['clean'],
+                'gamemode': data['gamemode'],
+                'server_id': data['serverid'],
+                'online_state': True
+            }
+    except Exception as e:
+        print(f"Error: {e}")
     return None
 
 @app.route('/')
