@@ -18,7 +18,7 @@ def get_minecraft_server_status():
                 'max_players': data['players']['max'],
                 'connected_players': data['players']['online'],
                 'hostname': data['hostname'],
-                'map': data['map'],
+                'map': data['map']['raw'],
                 'gamemode': data['gamemode'],
                 'server_id': data['serverid'],
                 'online_state': True
