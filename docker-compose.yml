@@ -3,6 +3,8 @@ version: '3.8'
 services:
   bedrockstatus:
     image: rdnsx/bedrockstatus
+    ports:
+      8000:8000
     environment:
       - SERVER=pietscraft.net # Change to your MC server domain!
 
