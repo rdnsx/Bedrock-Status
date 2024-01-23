@@ -9,8 +9,8 @@ MC_SERVER_DOMAIN = os.environ.get('SERVER')
 
 def get_minecraft_server_status():
     server_urls = [
-        f'https://api.mcsrvstat.us/3/{MC_SERVER_DOMAIN}',         # Java server URL
-        f'https://api.mcsrvstat.us/bedrock/3/{MC_SERVER_DOMAIN}'  # Bedrock server URL
+        f'https://api.mcsrvstat.us/3/{MC_SERVER_DOMAIN}',
+        f'https://api.mcsrvstat.us/bedrock/3/{MC_SERVER_DOMAIN}'
     ]
 
     for url in server_urls:
