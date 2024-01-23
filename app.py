@@ -8,24 +8,38 @@ MC_SERVER_DOMAIN = os.environ.get('SERVER')
 
 def get_minecraft_server_status():
     try:
-        response = requests.get(f'https://api.mcsrvstat.us/bedrock/2/{MC_SERVER_DOMAIN}')
-
+        # First try for the Java version
+        response = requests.get(f'https://api.mcsrvstat.us/3/{MC_SERVER_DOMAIN}')
         data = response.json()
         if data['online']:
-            return {
-                'server_version': data['version'],
-                'motd': data['motd']['clean'][0],
-                'max_players': data['players']['max'],
-                'connected_players': data['players']['online'],
-                'hostname': data['hostname'],
-                'map': data['map'],
-                'gamemode': data['gamemode'],
-                'server_id': data['serverid'],
-                'online_state': True
-            }
+            # Construct and return data for Java version
+            return construct_server_data(data)
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Java version error: {e}")
+        try:
+            # Failover to the Bedrock version
+            response = requests.get(f'https://api.mcsrvstat.us/bedrock/2/{MC_SERVER_DOMAIN}')
+            data = response.json()
+            if data['online']:
+                # Construct and return data for Bedrock version
+                return construct_server_data(data)
+        except Exception as e:
+            print(f"Bedrock version error: {e}")
+
     return None
+
+def construct_server_data(data):
+    return {
+        'server_version': data.get('version', 'Unknown'),
+        'motd': data['motd']['clean'][0] if 'motd' in data and 'clean' in data['motd'] else 'Unknown',
+        'max_players': data['players'].get('max', 0),
+        'connected_players': data['players'].get('online', 0),
+        'hostname': data.get('hostname', 'Unknown'),
+        'map': data.get('map', 'Unknown'),
+        'gamemode': data.get('gamemode', 'Unknown'),
+        'server_id': data.get('serverid', 'Unknown'),
+        'online_state': True
+    }
 
 @app.route('/')
 def index():
