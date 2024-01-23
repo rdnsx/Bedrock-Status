@@ -1,6 +1,6 @@
-# Minecraft Bedrock Server Status Web App
+# Minecraft Server Status Web App
 
-This project provides a Flask web application that displays information about a Minecraft Bedrock server. The application fetches server information using an external API and presents it in a user-friendly format on a web page.
+This project provides a web application that displays information about a Minecraft server. The application fetches server information using an external API and presents it in a user-friendly format on a web page.
 
 ![Screenshot of the Web Application](screenshot.png)
 
@@ -28,7 +28,7 @@ Access the application by opening your web browser and navigating to `http://loc
    cd Bedrock-Status
    ```
 
-3. Modify the `docker-compose.yml` file to set your desired environment variables. Specifically, you can set the `SERVER` environment variable to the domain of the Minecraft Bedrock server you want to monitor.
+3. Modify the `docker-compose.yml` file to set your desired environment variables. Specifically, you can set the `SERVER` environment variable to the domain of the Minecraft server you want to monitor.
 
    ```yaml
    services:
@@ -55,7 +55,7 @@ Access the application by opening your web browser and navigating to `http://loc
 
 ## Notes
 
-- The application fetches server information from an external API. If you encounter any issues with the API, ensure that the API URL (`https://api.mcsrvstat.us/bedrock/2/<YOU_DOMAIN>`) is still valid and working.
+- The application fetches server information from an external API.
 - This project uses the Docker image `rdnsx/bedrockstatus` to deploy the application. Make sure to check for any updates or changes to this image if needed.
 
 ## License
