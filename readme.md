@@ -35,7 +35,7 @@ Access the application by opening your web browser and navigating to `http://loc
      bedrockstatus:
        image: rdnsx/bedrockstatus
        ports:
-         5000:5000
+         8000:8000
        environment:
          - SERVER=<YOUR-MINECRAFT_SERVER_DOMAIN_HERE>
    ```
