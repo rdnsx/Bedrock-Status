@@ -9,7 +9,7 @@ services:
       - SERVER=pietscraft.net # Change to your MC server domain!
 
 # Optional add a preexisting proxy network
-networks:
-  default:
-    external:
-      name: npm_default
+#networks:
+# default:
+#   external:
+#     name: npm_default
