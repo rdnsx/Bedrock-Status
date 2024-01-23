@@ -4,6 +4,8 @@ This project provides a Flask web application that displays information about a 
 
 ![Screenshot of the Web Application](screenshot.png)
 
+# !!!DEFAULT PORT CHANGED TO 8000!!!
+
 ## Quick setup
 
    ```bash
