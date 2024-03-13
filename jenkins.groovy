@@ -75,7 +75,7 @@ pipeline {
             }
         }
 
-        stage('Notify success') {
+        stage('NTFY success') {
             steps {
                 script {
                     def buildNumber = env.BUILD_NUMBER
