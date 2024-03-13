@@ -65,6 +65,7 @@ pipeline {
                     sleep env.WAIT_TIME.toInteger()
 
                     def response = sh(script: "curl -s ${env.WEBSITE_URL}", returnStdout: true).trim()
+                    def ntfyURL = 'https://ntfy.rdnsx.de'
                     def ntfyTopic = 'RDNSX_Jenkins'
                     def message
 
@@ -73,13 +74,11 @@ pipeline {
                         message = "👍 ${env.WEBSITE_URL} is successfully running on build ${buildNumber}!"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
-                        message = "🚫 Failure: ${env.WEBSITE_URL} is not running on build ${buildNumber} or is down!"
+                        message = "🚫 ${env.WEBSITE_URL} is not running on build ${buildNumber} or is down!"
                     }
 
-                    sh "curl -X POST https://ntfy.sh/${ntfyTopic} \\
-                        -H 'Content-Type: application/json' \\
+                    sh "curl ${ntfyURL}/${ntfyTopic} \\
                         -d '{
-                            \"topic\": \"${ntfyTopic}\",
                             \"message\": \"${message}\",
                             \"tags\": [\"+1\"], // Consider adjusting tags based on success or failure
                             \"actions\": [{
