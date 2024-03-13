@@ -56,7 +56,7 @@ pipeline {
             }
         }
 
-        stage('Check Website Status') {
+        stage('Check Website Status and Notify') {
             steps {
                 script {
                     def buildNumber = env.BUILD_NUMBER
@@ -68,21 +68,17 @@ pipeline {
 
                     if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
+                        def ntfyServer = 'ntfy.rdnsx.de'
+                        def ntfyTopic = 'RDNSX_Jenkins'
+                        def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
+                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
+                        def ntfyServer = 'ntfy.rdnsx.de'
+                        def ntfyTopic = 'RDNSX_Jenkins'
+                        def message = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
+                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
                     }
-                }
-            }
-        }
-
-        stage('NTFY success') {
-            steps {
-                script {
-                    def buildNumber = env.BUILD_NUMBER
-                    def ntfyServer = 'ntfy.rdnsx.de'
-                    def ntfyTopic = 'RDNSX_Jenkins'
-                    def ntfyCommand = "ntfy publish ${ntfyServer}/${ntfyTopic} '👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!'"
-                    sh ntfyCommand
                 }
             }
         }
