@@ -61,46 +61,33 @@ pipeline {
                 script {
                     def buildNumber = env.BUILD_NUMBER
 
-                    echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
-                    sleep WAIT_TIME
+                    echo "Waiting for ${env.WAIT_TIME} seconds before checking website status..."
+                    sleep env.WAIT_TIME.toInteger()
 
-                    def response = sh(script: "curl -s ${WEBSITE_URL}", returnStdout: true).trim()
-
-                    def ntfyServer = 'ntfy.rdnsx.de'
+                    def response = sh(script: "curl -s ${env.WEBSITE_URL}", returnStdout: true).trim()
                     def ntfyTopic = 'RDNSX_Jenkins'
-                    def ntfyUrl = "https://${ntfyServer}/${ntfyTopic}"
+                    def message
 
                     if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
-                        def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
-                        def jsonPayload = """{
-                            "title": "Deployment Success",
-                            "message": "${message}",
-                            "actions": [
-                                {
-                                    "action": "open",
-                                    "url": "${WEBSITE_URL}",
-                                    "label": "Visit Website"
-                                }
-                            ]
-                        }"""
-                        sh "curl -X POST -H 'Content-Type: application/json' -d '${jsonPayload}' ${ntfyUrl}"
+                        message = "👍 ${env.WEBSITE_URL} is successfully running on build ${buildNumber}!"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
-                        def message = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
-                        def jsonPayload = """{
-                            "title": "Deployment Failure",
-                            "message": "${message}",
-                            "actions": [
-                                {
-                                    "action": "open",
-                                    "url": "${WEBSITE_URL}",
-                                    "label": "Check Website"
-                                }
-                            ]
-                        }"""
-                        sh "curl -X POST -H 'Content-Type: application/json' -d '${jsonPayload}' ${ntfyUrl}"
+                        message = "🚫 Failure: ${env.WEBSITE_URL} is not running on build ${buildNumber} or is down!"
                     }
+
+                    sh "curl -X POST https://ntfy.sh/${ntfyTopic} \\
+                        -H 'Content-Type: application/json' \\
+                        -d '{
+                            \"topic\": \"${ntfyTopic}\",
+                            \"message\": \"${message}\",
+                            \"tags\": [\"+1\"], // Consider adjusting tags based on success or failure
+                            \"actions\": [{
+                                \"action\": \"view\",
+                                \"label\": \"Check Website\",
+                                \"url\": \"${env.WEBSITE_URL}\"
+                            }]
+                        }'"
                 }
             }
         }
