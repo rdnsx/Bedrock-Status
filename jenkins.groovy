@@ -67,7 +67,11 @@ pipeline {
                     def response = sh(script: "curl -s ${env.WEBSITE_URL}", returnStdout: true).trim()
                     def ntfyURL = 'https://ntfy.rdnsx.de'
                     def ntfyTopic = 'RDNSX_Jenkins'
+<<<<<<< HEAD
                     def message
+=======
+                    def ntfyUrl = "https://${ntfyServer}/pub/${ntfyTopic}"
+>>>>>>> parent of 8d23e65 (update jenkins.groovy)
 
                     if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
