@@ -77,16 +77,16 @@ pipeline {
                         message = "🚫 ${env.WEBSITE_URL} is not running on build ${buildNumber} or is down!"
                     }
 
-                    sh "curl ${ntfyURL}/${ntfyTopic} \\
-                        -d '{
-                            \"message\": \"${message}\",
-                            \"tags\": [\"+1\"], // Consider adjusting tags based on success or failure
-                            \"actions\": [{
-                                \"action\": \"view\",
-                                \"label\": \"Check Website\",
-                                \"url\": \"${env.WEBSITE_URL}\"
-                            }]
-                        }'"
+                        sh "curl ${ntfyURL}/${ntfyTopic} \\
+                            -d '{
+                                \"message\": \"${message}\",
+                                \"tags\": [\"+1\"], // Consider adjusting tags based on success or failure
+                                \"actions\": [{
+                                    \"action\": \"view\",
+                                    \"label\": \"Check Website\",
+                                    \"url\": \"${env.WEBSITE_URL}\"
+                                }]
+                            }'"
                 }
             }
         }
