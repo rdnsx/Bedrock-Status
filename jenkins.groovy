@@ -68,7 +68,7 @@ pipeline {
 
                     def ntfyServer = 'ntfy.rdnsx.de'
                     def ntfyTopic = 'RDNSX_Jenkins'
-                    def ntfyUrl = "https://${ntfyServer}/pub/${ntfyTopic}"
+                    def ntfyUrl = "https://${ntfyServer}/${ntfyTopic}"
 
                     if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
