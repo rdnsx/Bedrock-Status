@@ -64,20 +64,19 @@ pipeline {
                     echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
                     sleep WAIT_TIME
 
-                    def response = sh(script: "curl -s ${WEBSITE_URL}", returnStdout: true).trim()
+                    def curlResponse = sh(script: "curl -s -o response.txt -w '%{http_code}' ${WEBSITE_URL}", returnStdout: true).trim()
+                    def response = readFile('response.txt').trim()
 
-                    if (response.contains(buildNumber)) {
+                    if (curlResponse == '200' && response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
                         def ntfyServer = 'ntfy.rdnsx.de'
                         def ntfyTopic = 'RDNSX_Jenkins'
                         def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
-                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
+                        sh "curl -d '${message}' ${ntfyServer}/${ntfyTopic}"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
-                        def ntfyServer = 'ntfy.rdnsx.de'
-                        def ntfyTopic = 'RDNSX_Jenkins'
-                        def message = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
-                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
+                        def errormessage = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
+                        sh "curl -d '${errormessage}' -H 'Actions: view, Check website, ${WEBSITE_URL}' ${ntfyServer}/${ntfyTopic}"
                     }
                 }
             }
