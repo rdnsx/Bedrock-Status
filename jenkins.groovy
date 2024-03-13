@@ -61,36 +61,24 @@ pipeline {
                 script {
                     def buildNumber = env.BUILD_NUMBER
 
-                    echo "Waiting for ${env.WAIT_TIME} seconds before checking website status..."
-                    sleep env.WAIT_TIME.toInteger()
+                    echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
+                    sleep WAIT_TIME
 
-                    def response = sh(script: "curl -s ${env.WEBSITE_URL}", returnStdout: true).trim()
-                    def ntfyURL = 'https://ntfy.rdnsx.de'
-                    def ntfyTopic = 'RDNSX_Jenkins'
-<<<<<<< HEAD
-                    def message
-=======
-                    def ntfyUrl = "https://${ntfyServer}/pub/${ntfyTopic}"
->>>>>>> parent of 8d23e65 (update jenkins.groovy)
+                    def response = sh(script: "curl -s ${WEBSITE_URL}", returnStdout: true).trim()
 
                     if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
-                        message = "👍 ${env.WEBSITE_URL} is successfully running on build ${buildNumber}!"
+                        def ntfyServer = 'ntfy.rdnsx.de'
+                        def ntfyTopic = 'RDNSX_Jenkins'
+                        def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
+                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
-                        message = "🚫 ${env.WEBSITE_URL} is not running on build ${buildNumber} or is down!"
+                        def ntfyServer = 'ntfy.rdnsx.de'
+                        def ntfyTopic = 'RDNSX_Jenkins'
+                        def message = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
+                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
                     }
-
-                        sh "curl ${ntfyURL}/${ntfyTopic} \\
-                            -d '{
-                                \"message\": \"${message}\",
-                                \"tags\": [\"+1\"], // Consider adjusting tags based on success or failure
-                                \"actions\": [{
-                                    \"action\": \"view\",
-                                    \"label\": \"Check Website\",
-                                    \"url\": \"${env.WEBSITE_URL}\"
-                                }]
-                            }'"
                 }
             }
         }
