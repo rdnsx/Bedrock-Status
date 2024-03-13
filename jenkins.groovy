@@ -65,7 +65,7 @@ pipeline {
                     def websiteUrl = env.WEBSITE_URL
                     
                     echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
-                    sleep time: waitTime.toInteger(), unit: 'SECONDS'
+                    sleep time: WAIT_TIME.toInteger(), unit: 'SECONDS'
                     
                     def curlResponse = sh(script: "curl -s -o response.txt -w '%{http_code}' ${websiteUrl}", returnStdout: true).trim()
                     def response = readFile('response.txt').trim()
