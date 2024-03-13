@@ -72,36 +72,34 @@ pipeline {
 
                     if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
-                        def title = "Deployment Success"
                         def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
                         def jsonPayload = """{
-                            "title": "${title}",
+                            "title": "Deployment Success",
                             "message": "${message}",
                             "actions": [
                                 {
-                                    "action": "view",
+                                    "action": "open",
                                     "url": "${WEBSITE_URL}",
-                                    "label": "Check Website"
+                                    "label": "Visit Website"
                                 }
                             ]
                         }"""
-                        sh "curl -X POST -H 'Content-Type: application/json' -d '''${jsonPayload}''' ${ntfyUrl}"
+                        sh "curl -X POST -H 'Content-Type: application/json' -d '${jsonPayload}' ${ntfyUrl}"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
-                        def title = "Deployment Failure"
                         def message = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
                         def jsonPayload = """{
-                            "title": "${title}",
+                            "title": "Deployment Failure",
                             "message": "${message}",
                             "actions": [
                                 {
-                                    "action": "view",
+                                    "action": "open",
                                     "url": "${WEBSITE_URL}",
                                     "label": "Check Website"
                                 }
                             ]
                         }"""
-                        sh "curl -X POST -H 'Content-Type: application/json' -d '''${jsonPayload}''' ${ntfyUrl}"
+                        sh "curl -X POST -H 'Content-Type: application/json' -d '${jsonPayload}' ${ntfyUrl}"
                     }
                 }
             }
