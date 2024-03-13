@@ -66,18 +66,42 @@ pipeline {
 
                     def response = sh(script: "curl -s ${WEBSITE_URL}", returnStdout: true).trim()
 
+                    def ntfyServer = 'ntfy.rdnsx.de'
+                    def ntfyTopic = 'RDNSX_Jenkins'
+                    def ntfyUrl = "https://${ntfyServer}/pub/${ntfyTopic}"
+
                     if (response.contains(buildNumber)) {
                         echo "Website is up and contains ${buildNumber}."
-                        def ntfyServer = 'ntfy.rdnsx.de'
-                        def ntfyTopic = 'RDNSX_Jenkins'
+                        def title = "Deployment Success"
                         def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
-                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
+                        def jsonPayload = """{
+                            "title": "${title}",
+                            "message": "${message}",
+                            "actions": [
+                                {
+                                    "action": "open",
+                                    "url": "${WEBSITE_URL}",
+                                    "label": "Visit Website"
+                                }
+                            ]
+                        }"""
+                        sh "curl -X POST -H 'Content-Type: application/json' -d '''${jsonPayload}''' ${ntfyUrl}"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
-                        def ntfyServer = 'ntfy.rdnsx.de'
-                        def ntfyTopic = 'RDNSX_Jenkins'
+                        def title = "Deployment Failure"
                         def message = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
-                        sh "ntfy publish ${ntfyServer}/${ntfyTopic} '${message}'"
+                        def jsonPayload = """{
+                            "title": "${title}",
+                            "message": "${message}",
+                            "actions": [
+                                {
+                                    "action": "open",
+                                    "url": "${WEBSITE_URL}",
+                                    "label": "Check Website"
+                                }
+                            ]
+                        }"""
+                        sh "curl -X POST -H 'Content-Type: application/json' -d '''${jsonPayload}''' ${ntfyUrl}"
                     }
                 }
             }
