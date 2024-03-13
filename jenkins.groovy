@@ -72,7 +72,7 @@ pipeline {
                         def ntfyServer = 'ntfy.rdnsx.de'
                         def ntfyTopic = 'RDNSX_Jenkins'
                         def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
-                        sh "curl -d '${message}' ${ntfyServer}/${ntfyTopic}"
+                        sh "curl -d '${errormessage}' -H 'Actions: view, Check website, ${WEBSITE_URL}' ${ntfyServer}/${ntfyTopic}"
                     } else {
                         error "Website is not responding properly or does not contain ${buildNumber}."
                         def errormessage = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
