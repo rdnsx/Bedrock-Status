@@ -79,9 +79,9 @@ pipeline {
                             "message": "${message}",
                             "actions": [
                                 {
-                                    "action": "open",
+                                    "action": "view",
                                     "url": "${WEBSITE_URL}",
-                                    "label": "Visit Website"
+                                    "label": "Check Website"
                                 }
                             ]
                         }"""
@@ -95,7 +95,7 @@ pipeline {
                             "message": "${message}",
                             "actions": [
                                 {
-                                    "action": "open",
+                                    "action": "view",
                                     "url": "${WEBSITE_URL}",
                                     "label": "Check Website"
                                 }
