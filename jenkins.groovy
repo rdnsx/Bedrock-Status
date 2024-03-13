@@ -60,23 +60,25 @@ pipeline {
             steps {
                 script {
                     def buildNumber = env.BUILD_NUMBER
-
+                    def ntfyServer = 'ntfy.rdnsx.de'
+                    def ntfyTopic = 'RDNSX_Jenkins'
+                    def websiteUrl = env.WEBSITE_URL
+                    
                     echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
-                    sleep WAIT_TIME
-
-                    def curlResponse = sh(script: "curl -s -o response.txt -w '%{http_code}' ${WEBSITE_URL}", returnStdout: true).trim()
+                    sleep time: waitTime.toInteger(), unit: 'SECONDS'
+                    
+                    def curlResponse = sh(script: "curl -s -o response.txt -w '%{http_code}' ${websiteUrl}", returnStdout: true).trim()
                     def response = readFile('response.txt').trim()
 
                     if (curlResponse == '200' && response.contains(buildNumber)) {
-                        echo "Website is up and contains ${buildNumber}."
-                        def ntfyServer = 'ntfy.rdnsx.de'
-                        def ntfyTopic = 'RDNSX_Jenkins'
-                        def message = "👍 ${WEBSITE_URL} is successfully running on build ${buildNumber}!"
-                        sh "curl -d '${errormessage}' -H 'Actions: view, Check website, ${WEBSITE_URL}' ${ntfyServer}/${ntfyTopic}"
+                        def message = "👍 ${websiteUrl} is successfully running on build ${buildNumber}!"
+                        echo message
+                        sh "curl -d '${message}' -H 'Actions: view, Check website, ${websiteUrl}' ${ntfyServer}/${ntfyTopic}"
                     } else {
-                        error "Website is not responding properly or does not contain ${buildNumber}."
-                        def errormessage = "⛔️ ${WEBSITE_URL} is not responding properly or does not contain ${buildNumber}!"
-                        sh "curl -d '${errormessage}' -H 'Actions: view, Check website, ${WEBSITE_URL}' ${ntfyServer}/${ntfyTopic}"
+                        def errorMessage = "⛔️ ${websiteUrl} is not responding properly or does not contain ${buildNumber}!"
+                        echo errorMessage
+                        sh "curl -d '${errorMessage}' -H 'Actions: view, Check website, ${websiteUrl}' ${ntfyServer}/${ntfyTopic}"
+                        error errorMessage
                     }
                 }
             }
