@@ -2,21 +2,27 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_HUB_CREDENTIALS = 'DockerHub'
         SOURCE_REPO_URL = 'https://github.com/rdnsx/Bedrock-Status.git'
+        BRANCH = 'main'
         DOCKER_IMAGE_NAME = 'rdnsx/bedrockstatus'
+        DOCKER_HUB_CREDENTIALS = 'DockerHub' 
         TAG_NAME = 'latest'
+
         SSH_USER = 'root'
         SSH_HOST = '91.107.199.72'
         SSH_PORT = '22'
+        SERVICE_NAME = 'Bedrock-Status'
+ 
         WEBSITE_URL = 'https://status.pietscraft.net'
         WAIT_TIME = 30
+        NTFY_SERVER = 'ntfy.rdnsx.de'
+        NTFY_TOPIC = 'RDNSX_Jenkins'
     }
     
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: env.SOURCE_REPO_URL
+                git branch: "${BRANCH}", url: env.SOURCE_REPO_URL
             }
         }
         
@@ -30,8 +36,8 @@ pipeline {
                         def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${buildNumber}", ".")
                         dockerImage.push()
                         
-                        dockerImage.tag("latest")
-                        dockerImage.push("latest")
+                        dockerImage.tag("${TAG_NAME}")
+                        dockerImage.push("${TAG_NAME}")
                     }
                 }
             }
@@ -45,11 +51,11 @@ pipeline {
                             ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} ${SSH_USER}@${SSH_HOST} '
                             mount -a &&
                             cd /mnt/SSS/DockerCompose/ &&
-                            rm -rf Bedrock-Status/ &&
-                            mkdir Bedrock-Status/ &&
-                            cd Bedrock-Status/ &&
-                            wget https://raw.githubusercontent.com/rdnsx/Bedrock-Status/main/docker-compose-swarm.yml &&
-                            docker stack deploy -c docker-compose-swarm.yml Bedrock-Status;'
+                            rm -rf ${SERVICE_NAME}/ &&
+                            mkdir ${SERVICE_NAME}/ &&
+                            cd ${SERVICE_NAME}/ &&
+                            wget https://raw.githubusercontent.com/rdnsx/${SERVICE_NAME}/main/docker-compose-swarm.yml &&
+                            docker stack deploy -c docker-compose-swarm.yml ${SERVICE_NAME};'
                             """
                     }
                 }
@@ -60,8 +66,8 @@ pipeline {
             steps {
                 script {
                     def buildNumber = env.BUILD_NUMBER
-                    def ntfyServer = 'ntfy.rdnsx.de'
-                    def ntfyTopic = 'RDNSX_Jenkins'
+                    def ntfyServer = env.NTFY_SERVER
+                    def ntfyTopic = env.NTFY_TOPIC
                     def websiteUrl = env.WEBSITE_URL
                     
                     echo "Waiting for ${WAIT_TIME} seconds before checking website status..."
