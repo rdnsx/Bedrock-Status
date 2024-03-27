@@ -20,11 +20,6 @@ pipeline {
     }
     
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: "${BRANCH}", url: env.SOURCE_REPO_URL
-            }
-        }
         
         stage('Build Docker Image') {
             steps {
